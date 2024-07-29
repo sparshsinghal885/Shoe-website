@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -11,9 +11,19 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from 'react-router-dom'
-
+import { FireBaseContext } from '@/contexts/firebase'
 
 const SignIn = () => {
+
+  const firebase = useContext(FireBaseContext);
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleSubmit = async () => {
+    await firebase.signupUserWithEmailAndPassword(email, password);
+  }
+
   return (
     <div className='flex justify-center items-center h-screen'>
       <Card className="w-full max-w-sm">
@@ -26,15 +36,29 @@ const SignIn = () => {
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" required />
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required />
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="w-full">Sign in</Button>
+          <Button
+            onClick={handleSubmit}
+            className="w-full">Sign in</Button>
         </CardFooter>
         <div className="my-3 text-center text-sm">
           Don&apos;t have an account?{" "}
