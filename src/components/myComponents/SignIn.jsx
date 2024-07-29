@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,25 +10,79 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Link } from 'react-router-dom'
-import { FireBaseContext } from '@/contexts/firebase'
+import { Link, useNavigate } from 'react-router-dom'
+import { auth, fireDB } from "../../firebase/firebase.jsx";
+import toast from "react-hot-toast";
+import { HashLoader } from "react-spinners"
+
 
 const SignIn = () => {
 
-  const firebase = useContext(FireBaseContext);
+  const [loading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  // navigate 
+  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
-    await firebase.signupUserWithEmailAndPassword(email, password);
+  // User Signup State 
+  const [userLogin, setUserLogin] = useState({
+    email: "",
+    password: ""
+  });
+
+  const userLoginFunction = async () => {
+    // validation 
+    if (userLogin.email === "" || userLogin.password === "") {
+      toast.error("All Fields are required")
+    }
+
+    setLoading(true);
+    try {
+      const users = await signInWithEmailAndPassword(auth, userLogin.email, userLogin.password);
+      // console.log(users.user)
+
+      try {
+        const q = query(
+          collection(fireDB, "user"),
+          where('uid', '==', users?.user?.uid)
+        );
+        const data = onSnapshot(q, (QuerySnapshot) => {
+          let user;
+          QuerySnapshot.forEach((doc) => user = doc.data());
+          localStorage.setItem("users", JSON.stringify(user))
+          setUserLogin({
+            email: "",
+            password: ""
+          })
+          toast.success("Login Successfully");
+          setLoading(false);
+          if (user.role === "user") {
+            navigate('/user-dashboard');
+          } else {
+            navigate('/admin-dashboard');
+          }
+        });
+        return () => data;
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error("Login Failed");
+    }
+
   }
+
 
   return (
     <div className='flex justify-center items-center h-screen'>
       <Card className="w-full max-w-sm">
+        <div className='w-full mt-4 flex justify-center'>
+          {loading && <HashLoader color='#282727' />}
+        </div>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Sign in</CardTitle>
           <CardDescription>
             Enter your email below to login to your account.
           </CardDescription>
@@ -41,8 +95,13 @@ const SignIn = () => {
               type="email"
               placeholder="m@example.com"
               required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
+              value={userLogin.email}
+              onChange={(e) => {
+                setUserLogin({
+                  ...userLogin,
+                  email: e.target.value
+                })
+              }}
             />
           </div>
           <div className="grid gap-2">
@@ -50,14 +109,19 @@ const SignIn = () => {
             <Input
               id="password"
               type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={userLogin.password}
+              onChange={(e) => {
+                setUserLogin({
+                  ...userLogin,
+                  password: e.target.value
+                })
+              }}
               required />
           </div>
         </CardContent>
         <CardFooter>
           <Button
-            onClick={handleSubmit}
+            onClick={userLoginFunction}
             className="w-full">Sign in</Button>
         </CardFooter>
         <div className="my-3 text-center text-sm">

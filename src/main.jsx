@@ -10,7 +10,6 @@ import HomePage from './pages/HomePage.jsx'
 import Women from './pages/Women.jsx'
 import Kids from './pages/Kids.jsx'
 import Contact from './pages/Contact.jsx'
-import { FireBaseProvider } from './contexts/firebase.jsx'
 
 const router = createBrowserRouter(
   [
@@ -53,8 +52,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <FireBaseProvider>
-      <RouterProvider router={router} /> 
-    </FireBaseProvider>
+
+    <RouterProvider router={router} />
+
   </React.StrictMode>,
 )
