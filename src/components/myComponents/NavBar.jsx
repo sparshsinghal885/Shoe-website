@@ -12,6 +12,10 @@ const NavBar = () => {
 
   const navItems = [
     {
+      lable: "All Products",
+      href: "/allproducts"
+    },
+    {
       lable: "Men",
       href: "/men"
     },
@@ -38,7 +42,7 @@ const NavBar = () => {
     {
       lable: "Contact",
       href: "/contact"
-    },
+    }
   ]
 
   const { isLoggedIn, setIsLoggedIn } = useContext(MyContext);

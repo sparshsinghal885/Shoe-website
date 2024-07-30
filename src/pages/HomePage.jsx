@@ -1,8 +1,8 @@
 import HeroSection from '@/components/myComponents/HeroSection'
 import Latest from '@/components/myComponents/Latest'
-import ProductCard from '@/components/myComponents/ProductCard'
 import Trending from '@/components/myComponents/Trending'
 import React from 'react'
+import HomePageProducts from './HomePageProducts'
 
 const HomePage = () => {
   return (
@@ -10,7 +10,7 @@ const HomePage = () => {
       <HeroSection/>
       <Latest/>
       <Trending/>
-      <ProductCard/>
+      <HomePageProducts/>
     </>
   )
 }

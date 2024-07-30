@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react'
-
+import React, { useEffect, useState, useContext } from 'react'
+import MyContext from '@/contexts/myContext/MyContext';
+import { useParams } from 'react-router-dom';
+import { fireDB } from '@/firebase/firebase';
+import { doc, getDoc } from "firebase/firestore";
+import { SyncLoader } from 'react-spinners';
 
 const ProductInfo = () => {
   useEffect(() => {
@@ -7,6 +11,40 @@ const ProductInfo = () => {
       window.scrollTo(0, 0)
     }, 0);
   }, []);
+
+  const { getImageUrl } = useContext(MyContext);
+  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState('')
+  const { id } = useParams()
+  const [imgUrl, setImageUrl] = useState('')
+
+  const getProductData = async () => {
+    setLoading(true);
+    try {
+      const productDoc = await getDoc(doc(fireDB, "products", id));
+      const productData = productDoc.data();
+      setProduct(productData);
+
+      if (productData?.productImg) {
+        const url = await getImageUrl(productData.productImg);
+        setImageUrl(url);
+      }
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProductData();
+  }, [id]);
+
+  if (loading) {
+    return <div className='w-screen flex mt-5 justify-center'>
+      {loading && <SyncLoader color='#282727' />}
+    </div>;
+  }
 
   return (
     <section className="py-5 lg:py-16 font-poppins dark:bg-gray-800">
@@ -17,8 +55,8 @@ const ProductInfo = () => {
               <div className="">
                 <img
                   className=" w-full lg:h-[39em] rounded-lg"
-                  src="https://i.pinimg.com/736x/e4/61/f2/e461f2246b6ad93e2099d98780626396.jpg"
-                  alt=""
+                  src={imgUrl}
+                  alt={product.title}
                 />
               </div>
             </div>
@@ -27,6 +65,7 @@ const ProductInfo = () => {
             <div className="lg:pl-20">
               <div className="mb-6 ">
                 <h2 className="max-w-xl mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
+                  {product.title}
                 </h2>
                 <div className="flex flex-wrap items-center mb-6">
                   <ul className="flex mb-4 mr-2 lg:mb-0">
@@ -89,13 +128,21 @@ const ProductInfo = () => {
                   </ul>
                 </div>
                 <p className="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
-                  <span>Rs.7,000.00</span>
+                  <span>${product.price}</span>
+                </p>
+                <br />
+                <p className="inline-block text-2xl mt-3 font-semibold text-gray-700 dark:text-gray-400 ">
+                  <span>{product.category}</span>
+                </p>
+                <br />
+                <p className="inline-block text-2xl mt-3 font-semibold text-gray-700 dark:text-gray-400 ">
+                  <span>size:{product.size}</span>
                 </p>
               </div>
               <div className="mb-6">
                 <h2 className="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">
                 </h2>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa, explicabo enim ratione voluptatum at cupiditate delectus nemo dolorum officia esse beatae optio ut mollitia sit omnis, possimus nesciunt voluptas natus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident rerum ad rem reprehenderit qui, omnis nam distinctio, dignissimos nisi quidem aliquam, sapiente delectus commodi! Perspiciatis provident illo autem quidem ad! Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae reiciendis eum dolorum cupiditate </p>
+                <p>{product.description}</p>
               </div>
               <div className="mb-6 " />
               <div className="flex flex-wrap items-center mb-6">

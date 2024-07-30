@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import admin from '../../assets/user.png'
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ProductDetail from "@/components/myComponents/admin/ProductDetail";
 import OrderDetail from "@/components/myComponents/admin/OrderDetail";
 import UserDetail from "@/components/myComponents/admin/UserDetail";
+import MyContext from "@/contexts/myContext/MyContext";
 
 const AdminDashboard = () => {
+  const {getAllProduct} = useContext(MyContext);
 
   const user = JSON.parse(localStorage.getItem('users'));
-
   return (
     <div>
       {/* Top */}
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
                     </svg>
 
                   </div>
-                  <h2 className="title-font font-medium text-3xl text-black fonts1" >10</h2>
+                  <h2 className="title-font font-medium text-3xl text-black fonts1" >{getAllProduct.length}</h2>
                   <p className=" text-black  font-bold" >Total Products</p>
                 </div>
               </Tab>

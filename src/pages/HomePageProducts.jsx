@@ -3,11 +3,11 @@ import MyContext from "@/contexts/myContext/MyContext";
 import { useContext, useState, useEffect } from "react";
 import { HashLoader } from "react-spinners";
 
-const AllProducts = () => {
+const HomePageProducts = () => {
   const navigate = useNavigate();
 
   const { getAllProduct, getImageUrl } = useContext(MyContext)
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [imageUrls, setImageUrls] = useState({});
 
@@ -35,22 +35,22 @@ const AllProducts = () => {
       <div className="py-8">
         {/* Heading  */}
         <div className="">
-          <h1 className=" text-center mb-5 text-5xl font-semibold">All Products</h1>
+          <h1 className=" text-center mb-5 text-5xl font-semibold">Newly Launched Shoes</h1>
         </div>
 
         {/* main  */}
         <section className="text-gray-600 body-font ">
           <div className="container px-5 lg:px-0 py-5 mx-auto">
             <div className="flex justify-center">
-            {loading && <HashLoader color='#282727' />}
+              {loading && <HashLoader color='#282727' />}
             </div>
             <div className="flex flex-wrap -m-4">
-              {getAllProduct.map((item) => {
+              {getAllProduct.slice(0,9).map((item) => {
 
                 const imgUrl = imageUrls[item.id] || '';
 
                 const { id, title, price } = item
-                
+
                 return (
                   <div key={id} className="p-4 w-full md:w-1/3">
                     <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
@@ -89,4 +89,4 @@ const AllProducts = () => {
   );
 }
 
-export default AllProducts;
+export default HomePageProducts;
