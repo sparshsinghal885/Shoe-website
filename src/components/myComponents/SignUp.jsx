@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link, useNavigate } from 'react-router-dom'
 
-import toast from "react-hot-toast";
 import { HashLoader } from "react-spinners"
 
 import { Timestamp, addDoc, collection } from "firebase/firestore";
@@ -36,7 +35,7 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
-      toast.error("All Fields are required")
+      alert("All Fields are required")
     }
 
     setLoading(true);
@@ -72,7 +71,6 @@ const SignUp = () => {
         password: ""
       })
 
-      toast.success("Signup Successfully");
       setIsLoggedIn(true);
       setLoading(false);
       navigate('/')

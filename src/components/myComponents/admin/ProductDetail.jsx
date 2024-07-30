@@ -1,11 +1,16 @@
+import { useNavigate, Link } from "react-router-dom";
+
 const ProductDetail = () => {
+
+  const navigate = useNavigate()
+
   return (
     <div>
       <div className="py-5 flex justify-between items-center">
         {/* text  */}
         <h1 className=" text-xl text-slate-900 font-bold">All Product</h1>
         {/* Add Product Button  */}
-        <button className="px-5 py-2 bg-slate-950 border border-neutral-200 rounded-lg text-white transform hover:scale-110 mr-8 transition duration-100">Add Product</button>
+        <button onClick={() => navigate('/addproduct')} className="px-5 py-2 bg-slate-950 border border-neutral-200 rounded-lg text-white transform hover:scale-110 mr-8 transition duration-100">Add Product</button>
       </div>
 
       {/* table  */}

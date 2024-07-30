@@ -12,11 +12,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link, useNavigate } from 'react-router-dom'
 import { auth, fireDB } from "../../firebase/firebase.jsx";
-import toast, {Toaster} from "react-hot-toast";
 import { HashLoader } from "react-spinners"
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { query, collection , where, onSnapshot} from "firebase/firestore"
 import LoginContext from '@/contexts/LoginContext/LoginContext.jsx'
+import toast from 'react-hot-toast'
 
 
 const SignIn = () => {
@@ -36,7 +36,7 @@ const SignIn = () => {
   const userLoginFunction = async () => {
     // validation 
     if (userLogin.email === "" || userLogin.password === "") {
-      toast.error("All Fields are required")
+      return toast.error("All Fields are required")
     }
 
     setLoading(true);
@@ -57,7 +57,6 @@ const SignIn = () => {
             email: "",
             password: ""
           })
-          toast.success("Login Successfully");
           setIsLoggedIn(true);
           setLoading(false);
           if (user.role === "user") {
@@ -74,7 +73,6 @@ const SignIn = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error("Login Failed");
     }
 
   }

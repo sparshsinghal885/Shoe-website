@@ -83,7 +83,7 @@ const NavBar = () => {
 
           {isLoggedIn
             ?
-            (<button onClick={Logout} className='py-2 px-3 border rounded-md bg-slate-900 text-white'>
+            (<button onClick={Logout} className='md:hidden lg:block py-2 px-3 border rounded-md bg-slate-900 text-white'>
               Logout
             </button>)
             :
@@ -104,7 +104,7 @@ const NavBar = () => {
         </div>
         {
           mobileDrawerOpen && (
-            <div className='fixed right-0 z-20 w-full flex flex-col justify-center items-center lg:hidden bg-white'>
+            <div className='fixed right-0 z-20 w-full flex flex-col justify-center items-center lg:hidden bg-white pb-4'>
               <ul>
                 {navItems.map((item, index) => (
                   <li key={index} className='py-4'>
@@ -115,12 +115,19 @@ const NavBar = () => {
                 ))}
               </ul>
 
-              <div className="flex space-x-6 mb-4">
-                <Link to="/auth/signin" className='py-2 px-3 border rounded-md'>
-                  Sign in
-                </Link>
-                <Link to="/auth/signup" className='py-2 px-3 border rounded-md bg-slate-900 text-white'> Create an account</Link>
-              </div>
+              {isLoggedIn
+                ?
+                (<button onClick={Logout} className='py-2 px-3 border rounded-md bg-slate-900 text-white '>
+                  Logout
+                </button>)
+                :
+                (<div className=" lg:flex justify-center space-x-12 items-center ">
+                  <Link to="/auth/signin" className='py-2 px-3 border rounded-md'>
+                    Sign in
+                  </Link>
+
+                  <Link to="/auth/signup" className='py-2 px-3 border rounded-md bg-slate-900 text-white'> Create an account</Link>
+                </div>)}
 
             </div>
           )

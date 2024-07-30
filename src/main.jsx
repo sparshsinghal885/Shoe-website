@@ -16,6 +16,11 @@ import CartPage from './CartPage.jsx'
 import AllProducts from './pages/AllProducts.jsx'
 import UserDashBoard from './pages/user/UserDashBoard.jsx'
 import AdminDasBoard from './pages/admin/AdminDasBoard.jsx'
+import AddProductPage from './pages/admin/AddProductPage.jsx'
+import UpdateProductPage from './pages/admin/UpdateProductPage.jsx'
+import ProtectedRouteForAdmin from './protectedRoutes/ProtectedRouteForAdmin.jsx'
+import AdminDashboard from './pages/admin/AdminDasBoard.jsx'
+import ProtectedRouteForUser from './protectedRoutes/ProtectedRouteForUser.jsx'
 
 const router = createBrowserRouter(
   [
@@ -57,11 +62,35 @@ const router = createBrowserRouter(
         },
         {
           path: "/user-dashboard",
-          element: <UserDashBoard />
+          element: (
+            <ProtectedRouteForUser>
+              <UserDashBoard />
+            </ProtectedRouteForUser>
+          )
         },
         {
           path: "/admin-dashboard",
-          element: <AdminDasBoard />
+          element: (
+            <ProtectedRouteForAdmin>
+              <AdminDasBoard />
+            </ProtectedRouteForAdmin>
+          )
+        },
+        {
+          path: "/addproduct",
+          element: (
+            <ProtectedRouteForAdmin>
+              <AddProductPage />
+            </ProtectedRouteForAdmin>
+          )
+        },
+        {
+          path: "/updateproduct",
+          element: (
+            <ProtectedRouteForAdmin>
+              <UpdateProductPage />
+            </ProtectedRouteForAdmin>
+          )
         },
       ]
     },
