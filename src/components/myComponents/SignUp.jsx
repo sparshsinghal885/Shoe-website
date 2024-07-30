@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -19,6 +19,8 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { auth, fireDB } from "../../firebase/firebase.jsx";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
+import LoginContext from '@/contexts/LoginContext/LoginContext.jsx'
+
 const SignUp = () => {
 
   const [userSignup, setUserSignup] = useState({
@@ -30,6 +32,7 @@ const SignUp = () => {
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const {setIsLoggedIn} = useContext(LoginContext);
 
   const handleSubmit = async () => {
     if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
@@ -70,7 +73,7 @@ const SignUp = () => {
       })
 
       toast.success("Signup Successfully");
-
+      setIsLoggedIn(true);
       setLoading(false);
       navigate('/')
     } catch (error) {

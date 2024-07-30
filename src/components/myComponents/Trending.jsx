@@ -25,8 +25,7 @@ const Trending = () => {
       name: "Nike React Infinity Run",
       image: shoe3,
       price: "$160",
-    },
-    
+    }    
   ];
 
   return (
@@ -41,7 +40,7 @@ const Trending = () => {
                 <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
                 <p className="mt-2 text-gray-600">{product.price}</p>
                 <button className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
-                  Buy Now
+                  Add to Cart
                 </button>
               </div>
             </div>

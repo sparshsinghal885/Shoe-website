@@ -10,6 +10,12 @@ import HomePage from './pages/HomePage.jsx'
 import Women from './pages/Women.jsx'
 import Kids from './pages/Kids.jsx'
 import Contact from './pages/Contact.jsx'
+import ProductInfo from './pages/ProductInfo.jsx'
+import LoginContextProvider from './contexts/LoginContext/LoginContextProvider.jsx'
+import CartPage from './CartPage.jsx'
+import AllProducts from './pages/AllProducts.jsx'
+import UserDashBoard from './pages/user/UserDashBoard.jsx'
+import AdminDasBoard from './pages/admin/AdminDasBoard.jsx'
 
 const router = createBrowserRouter(
   [
@@ -37,6 +43,26 @@ const router = createBrowserRouter(
           path: '/contact',
           element: <Contact />,
         },
+        {
+          path: "/productinfo",
+          element: <ProductInfo />
+        },
+        {
+          path: "/cart",
+          element: <CartPage />
+        },
+        {
+          path: "/allproducts",
+          element: <AllProducts />
+        },
+        {
+          path: "/user-dashboard",
+          element: <UserDashBoard />
+        },
+        {
+          path: "/admin-dashboard",
+          element: <AdminDasBoard />
+        },
       ]
     },
     {
@@ -46,14 +72,16 @@ const router = createBrowserRouter(
     {
       path: "/auth/signup",
       element: <SignUp />
-    }
+    },
+
   ]
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-
-    <RouterProvider router={router} />
-
+    <LoginContextProvider>
+      <RouterProvider router={router} >
+      </RouterProvider>
+    </LoginContextProvider>
   </React.StrictMode>,
 )
