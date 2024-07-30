@@ -1,5 +1,5 @@
 import React from "react";
-import user from '../../assets/user.png'
+import userImg from '../../assets/user.png'
 
 const products = [
     {
@@ -16,6 +16,9 @@ const products = [
 ]
 
 const UserDashboard = () => {
+
+    const user = JSON.parse(localStorage.getItem('users'));
+
     return (
         <>
             <div className=" container mx-auto px-4 py-5 lg:py-8">
@@ -25,12 +28,14 @@ const UserDashboard = () => {
                     <div className=" bg-slate-100 py-5 rounded-xl border border-neutral-200">
                         {/* image  */}
                         <div className="flex justify-center">
-                            <img src={user} alt="user" className="w-20"/>
+                            <img src={userImg} alt="user" className="w-20" />
                         </div>
                         {/* text  */}
-                        <div className="">
-                            <h1 className=" text-center text-lg"><span className=" font-bold">Name :</span> Kamal Nayan Upadhyay</h1>
-                            <h1 className=" text-center text-lg"><span className=" font-bold">Email :</span> test@gmail.com</h1>
+                        <div className="mt-4">
+                            <h1 className=" text-center text-lg"><span className=" font-bold">Name :</span> {user?.name}</h1>
+                            <h1 className=" text-center text-lg"><span className=" font-bold">Email :</span>{user?.email}</h1>
+                            <h1 className=" text-center text-lg"><span className=" font-bold">Date :</span>{user?.date}</h1>
+                            <h1 className=" text-center text-lg"><span className=" font-bold">Role :</span>{user?.role}</h1>
                         </div>
                     </div>
                 </div>

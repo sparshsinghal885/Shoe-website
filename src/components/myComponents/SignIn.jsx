@@ -1,4 +1,4 @@
-import React, { useState , useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,15 +14,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { auth, fireDB } from "../../firebase/firebase.jsx";
 import { HashLoader } from "react-spinners"
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { query, collection , where, onSnapshot} from "firebase/firestore"
-import LoginContext from '@/contexts/LoginContext/LoginContext.jsx'
+import { query, collection, where, onSnapshot } from "firebase/firestore"
+import MyContext from '@/contexts/myContext/MyContext.jsx'
 import toast from 'react-hot-toast'
 
 
 const SignIn = () => {
 
   const [loading, setLoading] = useState(false);
-  const {setIsLoggedIn} = useContext(LoginContext);
+  const { setIsLoggedIn } = useContext(MyContext);
 
   // navigate 
   const navigate = useNavigate();

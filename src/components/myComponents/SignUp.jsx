@@ -18,7 +18,7 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { auth, fireDB } from "../../firebase/firebase.jsx";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
-import LoginContext from '@/contexts/LoginContext/LoginContext.jsx'
+import MyContext from '@/contexts/myContext/MyContext.jsx'
 
 const SignUp = () => {
 
@@ -31,7 +31,7 @@ const SignUp = () => {
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {setIsLoggedIn} = useContext(LoginContext);
+  const { setIsLoggedIn } = useContext(MyContext);
 
   const handleSubmit = async () => {
     if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {

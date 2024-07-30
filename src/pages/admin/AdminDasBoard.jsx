@@ -6,6 +6,9 @@ import OrderDetail from "@/components/myComponents/admin/OrderDetail";
 import UserDetail from "@/components/myComponents/admin/UserDetail";
 
 const AdminDashboard = () => {
+
+  const user = JSON.parse(localStorage.getItem('users'));
+
   return (
     <div>
       {/* Top */}
@@ -25,9 +28,11 @@ const AdminDashboard = () => {
               <img src={admin} alt="logo" className="w-20" />
             </div>
             {/* text  */}
-            <div className="">
-              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Name :</span> Kamal Nayan Upadhyay</h1>
-              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Email :</span> test@gmail.com</h1>
+            <div className="mt-4">
+              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Name :</span> {user?.name} </h1>
+              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Email :</span> {user?.email} </h1>
+              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Date :</span> {user?.date} </h1>
+              <h1 className=" text-center text-lg text-black"><span className=" font-bold">Role :</span> {user?.role} </h1>
             </div>
           </div>
         </div>

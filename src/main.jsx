@@ -11,15 +11,14 @@ import Women from './pages/Women.jsx'
 import Kids from './pages/Kids.jsx'
 import Contact from './pages/Contact.jsx'
 import ProductInfo from './pages/ProductInfo.jsx'
-import LoginContextProvider from './contexts/LoginContext/LoginContextProvider.jsx'
-import CartPage from './CartPage.jsx'
+import MyContextProvider from './contexts/myContext/MyContextProvider.jsx'
+import CartPage from './pages/CartPage.jsx'
 import AllProducts from './pages/AllProducts.jsx'
 import UserDashBoard from './pages/user/UserDashBoard.jsx'
 import AdminDasBoard from './pages/admin/AdminDasBoard.jsx'
 import AddProductPage from './pages/admin/AddProductPage.jsx'
 import UpdateProductPage from './pages/admin/UpdateProductPage.jsx'
 import ProtectedRouteForAdmin from './protectedRoutes/ProtectedRouteForAdmin.jsx'
-import AdminDashboard from './pages/admin/AdminDasBoard.jsx'
 import ProtectedRouteForUser from './protectedRoutes/ProtectedRouteForUser.jsx'
 
 const router = createBrowserRouter(
@@ -85,7 +84,7 @@ const router = createBrowserRouter(
           )
         },
         {
-          path: "/updateproduct",
+          path: "/updateproduct/:id",
           element: (
             <ProtectedRouteForAdmin>
               <UpdateProductPage />
@@ -108,9 +107,9 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <LoginContextProvider>
+    <MyContextProvider>
       <RouterProvider router={router} >
       </RouterProvider>
-    </LoginContextProvider>
+    </MyContextProvider>
   </React.StrictMode>,
 )

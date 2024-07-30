@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import logo from "../../assets/Logo.png"
-import LoginContext from '@/contexts/LoginContext/LoginContext'
+import MyContext from '@/contexts/myContext/MyContext'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 import { useNavigate } from 'react-router-dom'
@@ -41,7 +41,7 @@ const NavBar = () => {
     },
   ]
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(MyContext);
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
