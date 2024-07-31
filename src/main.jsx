@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Layout from './Layout.jsx'
 import './index.css'
-import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SignIn from './components/myComponents/SignIn.jsx'
 import SignUp from './components/myComponents/SignUp.jsx'
 import Men from './pages/Men.jsx'
@@ -20,6 +20,8 @@ import AddProductPage from './pages/admin/AddProductPage.jsx'
 import UpdateProductPage from './pages/admin/UpdateProductPage.jsx'
 import ProtectedRouteForAdmin from './protectedRoutes/ProtectedRouteForAdmin.jsx'
 import ProtectedRouteForUser from './protectedRoutes/ProtectedRouteForUser.jsx'
+import { Provider } from 'react-redux'
+import { store } from './redux/store.js'
 
 const router = createBrowserRouter(
   [
@@ -107,9 +109,11 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <MyContextProvider>
-      <RouterProvider router={router} >
-      </RouterProvider>
-    </MyContextProvider>
+    <Provider store={store}>
+      <MyContextProvider>
+        <RouterProvider router={router} >
+        </RouterProvider>
+      </MyContextProvider>
+    </Provider>
   </React.StrictMode>,
 )

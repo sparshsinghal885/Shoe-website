@@ -2,6 +2,9 @@ import { useNavigate } from "react-router";
 import MyContext from "@/contexts/myContext/MyContext";
 import { useContext, useState, useEffect } from "react";
 import { HashLoader } from "react-spinners";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, deleteFromCart } from "@/redux/cartSlice";
+
 
 const HomePageProducts = () => {
   const navigate = useNavigate();
@@ -30,6 +33,35 @@ const HomePageProducts = () => {
     }, 500);
   }, [getAllProduct]);
 
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const addCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(addToCart({
+      ...item,
+      time: timestamp, // Convert to a serializable format
+    }));
+  }
+
+  const deleteCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(deleteFromCart({
+      ...item,
+      time: timestamp
+    }));
+  }
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems])
+
   return (
     <>
       <div className="py-8">
@@ -45,7 +77,7 @@ const HomePageProducts = () => {
               {loading && <HashLoader color='#282727' />}
             </div>
             <div className="flex flex-wrap -m-4">
-              {getAllProduct.slice(0,9).map((item) => {
+              {getAllProduct.slice(0, 9).map((item) => {
 
                 const imgUrl = imageUrls[item.id] || '';
 
@@ -71,10 +103,21 @@ const HomePageProducts = () => {
                           ₹{price}
                         </h1>
 
-                        <div className="flex justify-center ">
-                          <button className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
-                            Add To Cart
-                          </button>
+                        <div
+                          className="flex justify-center ">
+                          {cartItems.some((p) => p.id === item.id)
+
+                            ?
+                            <button onClick={() => deleteCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                              Remove from Cart
+                            </button>
+
+                            :
+
+                            <button onClick={() => addCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                              Add to Cart
+                            </button>
+                          }
                         </div>
                       </div>
                     </div>

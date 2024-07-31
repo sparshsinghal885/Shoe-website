@@ -2,12 +2,14 @@ import { useNavigate } from "react-router";
 import MyContext from "@/contexts/myContext/MyContext";
 import { useContext, useState, useEffect } from "react";
 import { HashLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, deleteFromCart } from "@/redux/cartSlice";
 
 const AllProducts = () => {
   const navigate = useNavigate();
 
   const { getAllProduct, getImageUrl } = useContext(MyContext)
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [imageUrls, setImageUrls] = useState({});
 
@@ -30,6 +32,35 @@ const AllProducts = () => {
     }, 500);
   }, [getAllProduct]);
 
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const addCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(addToCart({
+      ...item,
+      time: timestamp, // Convert to a serializable format
+    }));
+  }
+
+  const deleteCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(deleteFromCart({
+      ...item,
+      time: timestamp
+    }));
+  }
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems])
+
   return (
     <>
       <div className="py-8">
@@ -42,7 +73,7 @@ const AllProducts = () => {
         <section className="text-gray-600 body-font ">
           <div className="container px-5 lg:px-0 py-5 mx-auto">
             <div className="flex justify-center">
-            {loading && <HashLoader color='#282727' />}
+              {loading && <HashLoader color='#282727' />}
             </div>
             <div className="flex flex-wrap -m-4">
               {getAllProduct.map((item) => {
@@ -50,7 +81,7 @@ const AllProducts = () => {
                 const imgUrl = imageUrls[item.id] || '';
 
                 const { id, title, price } = item
-                
+
                 return (
                   <div key={id} className="p-4 w-full md:w-1/3">
                     <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
@@ -71,10 +102,21 @@ const AllProducts = () => {
                           ₹{price}
                         </h1>
 
-                        <div className="flex justify-center ">
-                          <button className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
-                            Add To Cart
-                          </button>
+                        <div
+                          className="flex justify-center ">
+                          {cartItems.some((p) => p.id === item.id)
+
+                            ?
+                            <button onClick={() => deleteCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                              Remove from Cart
+                            </button>
+
+                            :
+
+                            <button onClick={() => addCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                              Add to Cart
+                            </button>
+                          }
                         </div>
                       </div>
                     </div>

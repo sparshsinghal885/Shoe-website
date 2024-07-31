@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import MyContext from '@/contexts/myContext/MyContext';
 import { SyncLoader } from 'react-spinners';
 import NotFound from "../assets/rejected.png"
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart, deleteFromCart } from '@/redux/cartSlice';
 
 const Women = () => {
   const [loading, setLoading] = useState(false)
@@ -32,6 +34,35 @@ const Women = () => {
       setLoading(false)
     }, 500);
   }, []);
+
+  const cartItems = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const addCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(addToCart({
+      ...item,
+      time: timestamp, // Convert to a serializable format
+    }));
+  }
+
+  const deleteCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(deleteFromCart({
+      ...item,
+      time: timestamp
+    }));
+  }
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems])
 
   return (
     <div className="mt-10">
@@ -81,10 +112,21 @@ const Women = () => {
                               ₹{price}
                             </h1>
 
-                            <div className="flex justify-center ">
-                              <button className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
-                                Add To Cart
-                              </button>
+                            <div
+                              className="flex justify-center ">
+                              {cartItems.some((p) => p.id === item.id)
+
+                                ?
+                                <button onClick={() => deleteCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                                  Remove from Cart
+                                </button>
+
+                                :
+
+                                <button onClick={() => addCart(item)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                                  Add to Cart
+                                </button>
+                              }
                             </div>
                           </div>
                         </div>

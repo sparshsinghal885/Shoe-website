@@ -7,8 +7,11 @@ import MyContext from '@/contexts/myContext/MyContext'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const NavBar = () => {
+
+  const cartItems = useSelector((state) => state.cart);
 
   const navItems = [
     {
@@ -28,7 +31,7 @@ const NavBar = () => {
       href: "/kids"
     },
     {
-      lable: "Cart",
+      lable: `Cart(${cartItems.length})`,
       href: "/cart"
     },
     {
