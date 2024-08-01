@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import MyContext from "./MyContext.jsx";
 import { useState } from "react";
 import { query, collection, onSnapshot, orderBy } from "firebase/firestore";
-import { fireDB,storage } from "@/firebase/firebase.jsx";
+import { fireDB, storage } from "@/firebase/firebase.jsx";
 import { getDownloadURL, ref } from "firebase/storage";
 
 
 export default function MyContextProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    const [getAllOrder, setGetAllOrder] = useState([]);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('users'));
@@ -35,12 +37,32 @@ export default function MyContextProvider({ children }) {
         }
     }
 
+    const getAllOrderFunction = async () => {
+        try {
+            const q = query(
+                collection(fireDB, "order"),
+                orderBy('time')
+            );
+            const data = onSnapshot(q, (QuerySnapshot) => {
+                let orderArray = [];
+                QuerySnapshot.forEach((doc) => {
+                    orderArray.push({ ...doc.data(), id: doc.id });
+                });
+                setGetAllOrder(orderArray);
+            });
+            return () => data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getAllProductFunction();
+        getAllOrderFunction();
     }, []);
 
-    const getImageUrl = (path) => {
-        return getDownloadURL(ref(storage, path))
+    const getImageUrl = async (path) => {
+        return await getDownloadURL(ref(storage, path))
     }
 
     return (
@@ -50,6 +72,7 @@ export default function MyContextProvider({ children }) {
             getAllProduct,
             getAllProductFunction,
             getImageUrl,
+            getAllOrder,
         }}>
             {children}
         </MyContext.Provider>

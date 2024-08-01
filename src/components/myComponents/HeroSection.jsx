@@ -1,11 +1,14 @@
 import React from 'react'
 import WordRotate from '../magicui/word-rotate'
 import ShinyButton from '../magicui/shiny-button'
+import { useNavigate } from 'react-router-dom'
 
 const HeroSection = () => {
 
+  const navigate = useNavigate()
+
   const buttonHandler = () => {
-    console.log('hello')
+    navigate('/allproducts')
   }
 
   return (

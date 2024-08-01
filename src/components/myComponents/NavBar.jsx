@@ -8,6 +8,7 @@ import { signOut } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import cart from "../../assets/cart.png"
 
 const NavBar = () => {
 
@@ -29,10 +30,6 @@ const NavBar = () => {
     {
       lable: "Kids",
       href: "/kids"
-    },
-    {
-      lable: `Cart(${cartItems.length})`,
-      href: "/cart"
     },
     {
       lable: "User DashBoard",
@@ -90,9 +87,15 @@ const NavBar = () => {
 
           {isLoggedIn
             ?
-            (<button onClick={Logout} className='md:hidden lg:block py-2 px-3 border rounded-md bg-slate-900 text-white'>
-              Logout
-            </button>)
+            (<div className='hidden lg:flex justify-center space-x-12 items-center'>
+              <button onClick={Logout} className=' py-2 px-3 border rounded-md bg-slate-900 text-white'>
+                Logout
+              </button>
+              {isLoggedIn && 
+              <button onClick={() => navigate('/cart')} className='flex py-2 px-3 border-4 border-slate-950 rounded-md bg-white text-black space-x-2'>
+                <img className='text-white w-5 mr-3' src={cart} alt="cart" />{cartItems.length}
+              </button>}
+            </div>)
             :
             (<div className="hidden lg:flex justify-center space-x-12 items-center">
               <Link to="/auth/signin" className='py-2 px-3 border rounded-md'>
@@ -124,7 +127,7 @@ const NavBar = () => {
 
               {isLoggedIn
                 ?
-                (<button onClick={Logout} className='py-2 px-3 border rounded-md bg-slate-900 text-white '>
+                (<button onClick={Logout} className=' py-2 px-3 border rounded-md bg-slate-900 text-white '>
                   Logout
                 </button>)
                 :

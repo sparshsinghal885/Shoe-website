@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { fireDB } from '@/firebase/firebase';
 import { doc, getDoc } from "firebase/firestore";
 import { SyncLoader } from 'react-spinners';
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, deleteFromCart } from "@/redux/cartSlice";
 
 const ProductInfo = () => {
   useEffect(() => {
@@ -23,7 +25,7 @@ const ProductInfo = () => {
     try {
       const productDoc = await getDoc(doc(fireDB, "products", id));
       const productData = productDoc.data();
-      setProduct(productData);
+      setProduct({...productData, id});
 
       if (productData?.productImg) {
         const url = await getImageUrl(productData.productImg);
@@ -39,6 +41,37 @@ const ProductInfo = () => {
   useEffect(() => {
     getProductData();
   }, [id]);
+
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector((state) => state.cart);
+  const addCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(addToCart({
+      ...item,
+      time: timestamp, // Convert to a serializable format
+    }));
+  }
+
+  const deleteCart = (item) => {
+    const timestamp = {
+      seconds: item.time.seconds,
+      nanoseconds: item.time.nanoseconds,
+    };
+    dispatch(deleteFromCart({
+      ...item,
+      time: timestamp
+    }));
+  }
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems])
+
+
 
   if (loading) {
     return <div className='w-screen flex mt-5 justify-center'>
@@ -145,12 +178,21 @@ const ProductInfo = () => {
                 <p>{product.description}</p>
               </div>
               <div className="mb-6 " />
-              <div className="flex flex-wrap items-center mb-6">
-                <button
-                  className="w-full px-4 py-3 text-center text-black bg-slate-100 border border-black  hover:bg-slate-950 hover:text-gray-100 rounded-xl"
-                >
-                  Add to Cart
-                </button>
+              <div
+                className="flex justify-center ">
+                {cartItems.some((p) => p.id === product.id)
+
+                  ?
+                  <button onClick={() => deleteCart(product)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                    Remove from Cart
+                  </button>
+
+                  :
+
+                  <button onClick={() => addCart(product)} className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition duration-300">
+                    Add to Cart
+                  </button>
+                }
               </div>
             </div>
           </div>
