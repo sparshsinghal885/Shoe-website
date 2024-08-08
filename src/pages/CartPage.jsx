@@ -30,10 +30,10 @@ const CartPage = () => {
       setImageUrls(urls);
       setLoading(false);
     };
-
+    
     fetchImageUrls();
   }, [cartItems, getImageUrl]);
-
+  
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);

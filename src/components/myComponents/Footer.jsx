@@ -27,6 +27,13 @@ const Footer = () => {
 
           {/* media icon  */}
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+            <Link
+              to={'/contact'}
+              className="text-gray-100 mr-9 font-bold"
+              rel="noopener noreferrer"
+            >
+              Contact
+            </Link>
             {/* facebook  */}
             <a className="text-gray-100 cursor-pointer">
               <svg

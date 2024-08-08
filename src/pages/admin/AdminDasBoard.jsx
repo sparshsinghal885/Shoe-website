@@ -7,7 +7,11 @@ import UserDetail from "@/components/myComponents/admin/UserDetail";
 import MyContext from "@/contexts/myContext/MyContext";
 
 const AdminDashboard = () => {
-  const {getAllProduct} = useContext(MyContext);
+  const { getAllProduct, getAllOrder, getAllUser } = useContext(MyContext);
+
+  const calculateTotalItemsCount = (orders) => {
+    return orders.reduce((total, order) => total + order.cartItems.length, 0);
+  };
 
   const user = JSON.parse(localStorage.getItem('users'));
   return (
@@ -97,7 +101,7 @@ const AdminDashboard = () => {
                       <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
                     </svg>
                   </div>
-                  <h2 className="title-font font-medium text-3xl text-black fonts1" >10</h2>
+                  <h2 className="title-font font-medium text-3xl text-black fonts1" >{calculateTotalItemsCount(getAllOrder)}</h2>
                   <p className=" text-black  font-bold" >Total Order</p>
                 </div>
               </Tab>
@@ -125,7 +129,7 @@ const AdminDashboard = () => {
                     </svg>
 
                   </div>
-                  <h2 className="title-font font-medium text-3xl text-black fonts1" >10</h2>
+                  <h2 className="title-font font-medium text-3xl text-black fonts1" >{getAllUser.length}</h2>
                   <p className=" text-black  font-bold" >Total User</p>
                 </div>
               </Tab>
@@ -133,15 +137,15 @@ const AdminDashboard = () => {
             </TabList>
 
             <TabPanel>
-              <ProductDetail/>
+              <ProductDetail />
             </TabPanel>
 
             <TabPanel>
-              <OrderDetail/>
+              <OrderDetail />
             </TabPanel>
 
             <TabPanel>
-              <UserDetail/>
+              <UserDetail />
             </TabPanel>
 
           </Tabs>

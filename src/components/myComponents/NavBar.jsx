@@ -39,10 +39,6 @@ const NavBar = () => {
       lable: "Admin DashBoard",
       href: "/admin-dashboard"
     },
-    {
-      lable: "Contact",
-      href: "/contact"
-    }
   ]
 
   const { isLoggedIn, setIsLoggedIn } = useContext(MyContext);
@@ -91,10 +87,10 @@ const NavBar = () => {
               <button onClick={Logout} className=' py-2 px-3 border rounded-md bg-slate-900 text-white'>
                 Logout
               </button>
-              {isLoggedIn && 
-              <button onClick={() => navigate('/cart')} className='flex py-2 px-3 border-4 border-slate-950 rounded-md bg-white text-black space-x-2'>
-                <img className='text-white w-5 mr-3' src={cart} alt="cart" />{cartItems.length}
-              </button>}
+              {isLoggedIn &&
+                <button onClick={() => navigate('/cart')} className='flex py-2 px-3 border-4 border-slate-950 rounded-md bg-white text-black space-x-2'>
+                  <img className='text-white w-5 mr-3' src={cart} alt="cart" />{cartItems.length}
+                </button>}
             </div>)
             :
             (<div className="hidden lg:flex justify-center space-x-12 items-center">
@@ -127,9 +123,15 @@ const NavBar = () => {
 
               {isLoggedIn
                 ?
-                (<button onClick={Logout} className=' py-2 px-3 border rounded-md bg-slate-900 text-white '>
-                  Logout
-                </button>)
+                (<div>
+                  <button onClick={Logout} className=' py-2 px-3 border rounded-md bg-slate-900 text-white '>
+                    Logout
+                  </button>
+                  {isLoggedIn &&
+                    <button onClick={() => navigate('/cart')} className='flex py-2 px-3 border-4 border-slate-950 rounded-md bg-white text-black space-x-2'>
+                      <img className='text-white w-5 mr-3' src={cart} alt="cart" />{cartItems.length}
+                    </button>}
+                </div>)
                 :
                 (<div className=" lg:flex justify-center space-x-12 items-center ">
                   <Link to="/auth/signin" className='py-2 px-3 border rounded-md'>
