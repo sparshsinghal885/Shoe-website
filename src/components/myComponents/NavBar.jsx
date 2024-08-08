@@ -11,36 +11,39 @@ import { useSelector } from 'react-redux'
 import cart from "../../assets/cart.png"
 
 const NavBar = () => {
+  const [user, setUser] = useState()
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('users'));
+    setUser(storedUser);
+  }, [])
 
   const cartItems = useSelector((state) => state.cart);
 
   const navItems = [
     {
-      lable: "All Products",
+      label: "All Products",
       href: "/allproducts"
     },
     {
-      lable: "Men",
+      label: "Men",
       href: "/men"
     },
     {
-      lable: "Women",
+      label: "Women",
       href: "/women"
     },
     {
-      lable: "Kids",
+      label: "Kids",
       href: "/kids"
     },
-    {
-      lable: "User DashBoard",
-      href: "/user-dashboard"
-    },
-    {
-      lable: "Admin DashBoard",
-      href: "/admin-dashboard"
-    },
-  ]
-
+    // Use optional chaining to safely access user.role
+    ...(user ? [
+      {
+        label: "DashBoard",
+        href: `/${user.role}-dashboard`
+      }
+    ] : [])
+  ];
   const { isLoggedIn, setIsLoggedIn } = useContext(MyContext);
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -73,8 +76,8 @@ const NavBar = () => {
           <ul className='hidden lg:flex ml-14 space-x-12'>
             {navItems.map((item, index) => (
               <li key={index}>
-                <Link to={`${item.href}`} >
-                  {item.lable}
+                <Link to={item.href}>
+                  {item.label}
                 </Link>
               </li>
             ))}
