@@ -60,28 +60,28 @@ Welcome to the Shoe E-Commerce Website! This is a full-featured online shopping 
   **Home Page**
   Browse our extensive collection of shoes for men, women, and kids.
 
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-32-29.png)
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-34-25.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-32-29.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-34-25.png)
 
 **User Dashboard**
   Manage your profile and view your purchase history.
   
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-42-57.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-42-57.png)
 
 **Admin Dashboard**
   Manage products and view orders as an administrator.
   
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-33-28.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-33-28.png)
 
 **Cart**
   View and modify your cart, and proceed to checkout.
   
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-34-49.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-34-49.png)
 
 **Buy Now Option**
   Quickly purchase items with a single click.
   
-![Alt text](./images-for-readme/Screenshot%20from%202024-08-09%2014-35-17.png)
+![Alt text](./src/assets/images-for-readme/Screenshot%20from%202024-08-09%2014-35-17.png)
 
 ## Contact
 For any questions or feedback, please reach out to:
