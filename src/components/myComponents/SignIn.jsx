@@ -16,7 +16,7 @@ import { HashLoader } from "react-spinners"
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { query, collection, where, onSnapshot } from "firebase/firestore"
 import MyContext from '@/contexts/myContext/MyContext.jsx'
-import toast from 'react-hot-toast'
+
 
 
 const SignIn = () => {
@@ -36,7 +36,7 @@ const SignIn = () => {
   const userLoginFunction = async () => {
     // validation 
     if (userLogin.email === "" || userLogin.password === "") {
-      return toast.error("All Fields are required")
+      return alert("All Fields are required")
     }
 
     setLoading(true);
