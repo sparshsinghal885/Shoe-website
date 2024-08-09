@@ -14,7 +14,7 @@ const HeroSection = () => {
   return (
     <div className='max-w-8xl mx-auto pt-20 px-6 h-screen'>
       <div className='flex flex-col items-center mt-6 lg:mt-20'>
-        <h1 className='text-4xl sm:text-6xl lg:text-8xl text-center tracking-wide font-semibold text-shadow-lg'>
+        <h1 className='text-4xl sm:text-6xl lg:text-9xl text-center tracking-wide font-semibold text-shadow-lg'>
           Step Into Style:
           <WordRotate
             className="text-9xl font-semibold text-black dark:text-white"

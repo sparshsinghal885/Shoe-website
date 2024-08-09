@@ -117,8 +117,8 @@ const NavBar = () => {
               <ul>
                 {navItems.map((item, index) => (
                   <li key={index} className='py-4'>
-                    <Link to={`${item.href}`} >
-                      {item.lable}
+                    <Link to={item.href}>
+                      {item.label}
                     </Link>
                   </li>
                 ))}

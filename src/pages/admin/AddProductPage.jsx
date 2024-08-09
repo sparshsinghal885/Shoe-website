@@ -124,7 +124,7 @@ const AddProductPage = () => {
           <div className="mb-3">
             <input
               type="file"
-              accept="image/png, image/jpg, image/jpeg, image/gif"
+              accept="image/png, image/jpg, image/jpeg, image/gif, images/webp"
               required
               onChange={(e) => {
                 setProduct({
